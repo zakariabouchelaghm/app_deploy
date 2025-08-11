@@ -1,4 +1,4 @@
 fastapi
 uvicorn
-tensorflow==2.19.0
+tflite-runtime==2.14.0
 numpy
