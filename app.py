@@ -21,6 +21,7 @@ def predict(input_data: ModelInput):
     interpreter.set_tensor(input_details[0]['index'], img_input)
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]['index'])
-    return prediction.argmax(axis=1)
+    predicted_class = int(prediction.argmax(axis=1)[0])
+    return {"predicted_class": predicted_class}
 
     
