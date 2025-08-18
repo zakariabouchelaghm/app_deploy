@@ -32,7 +32,7 @@ async def predict(file: UploadFile = File(...)):
     img = cv2.resize(img, (28, 28))
     img = cv2.bitwise_not(img)
     img = img / 255.0
-    img_input = np.array(input_data.data, dtype="float32")
+    img_input = np.array(img, dtype="float32")
      
     
     prediction = model.predict(img_input)
