@@ -6,8 +6,17 @@ import cv2
 from io import BytesIO
 from PIL import Image
 import base64
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app=FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["https://zakariabouchelaghm.github.io"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 model = tf.keras.models.load_model("handwriting_model.h5")
 
