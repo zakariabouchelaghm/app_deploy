@@ -2,7 +2,5 @@ fastapi
 uvicorn
 tensorflow-cpu==2.20.0rc0
 numpy
-cv2
-io
-PIL
-base64
+opencv-python
+Pillow
