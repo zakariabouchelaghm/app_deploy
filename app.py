@@ -19,7 +19,8 @@ app.add_middleware(
 )
 
 model = tf.keras.models.load_model("handwriting_model.h5")
-
+dummy = np.zeros((1,28,28,1), dtype=np.float32)
+model.predict(dummy)
 
 @app.post("/predict")
 
