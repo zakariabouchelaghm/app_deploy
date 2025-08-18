@@ -10,12 +10,21 @@ interpreter.allocate_tensors()
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
-class ModelInput(BaseModel):
-    data:list
+class ImageData(BaseModel):
+    image: str
 
 @app.post("/predict")
 
-def predict(input_data: ModelInput):
+def predict(data: ImageData):
+    header, encoded = data.image.split(",", 1)
+    img_bytes = base64.b64decode(encoded)
+    image = Image.open(BytesIO(img_bytes)).convert("L")
+
+    # Preprocessing (same as before)
+    img = np.array(image)
+    img = cv2.resize(img, (28, 28))
+    img = cv2.bitwise_not(img)
+    img = img / 255.0
     img_input = np.array(input_data.data, dtype="float32")
      
     interpreter.set_tensor(input_details[0]['index'], img_input)
