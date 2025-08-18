@@ -9,27 +9,18 @@ from PIL import Image
 import base64
 
 app=FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # you can restrict to ["http://localhost:5173"]
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
 interpreter = tf.lite.Interpreter(model_path="handwriting_model.tflite")
 interpreter.allocate_tensors()
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
-class ImageData(BaseModel):
-    image: str
 
 @app.post("/predict")
 
-def predict(data: ImageData):
-    header, encoded = data.image.split(",", 1)
-    img_bytes = base64.b64decode(encoded)
-    image = Image.open(BytesIO(img_bytes)).convert("L")
+def predict(file: UploadFile = File(...)):
+    contents = await file.read()
+    image = Image.open(BytesIO(contents)).convert("L")
 
     # Preprocessing (same as before)
     img = np.array(image)
