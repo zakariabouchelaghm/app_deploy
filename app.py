@@ -1,8 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 import numpy as np
 import tensorflow as tf 
-from fastapi.middleware.cors import CORSMiddleware
 import cv2
 from io import BytesIO
 from PIL import Image
