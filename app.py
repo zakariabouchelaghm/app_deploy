@@ -30,7 +30,7 @@ async def predict(file: UploadFile = File(...)):
 
     # Preprocessing (same as before)
     img = np.array(image)
-    img = cv2.resize(img, (28, 28), Image.ANTIALIAS)
+    img = cv2.resize(img, (28, 28))
     img = cv2.bitwise_not(img)
     img = 255 - img 
     img = img / 255.0
