@@ -34,7 +34,8 @@ async def predict(file: UploadFile = File(...)):
     img = img / 255.0
     img_input = np.array(img, dtype="float32")
      
-    
+    img_input = np.expand_dims(img, axis=-1)   # (28, 28, 1)
+    img_input = np.expand_dims(img_input, axis=0)  # (1, 28, 28, 1)
     prediction = model.predict(img_input)
     predicted_class = int(np.argmax(prediction, axis=1)[0])
     return {"predicted_class": predicted_class}
