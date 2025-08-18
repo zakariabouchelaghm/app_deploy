@@ -17,7 +17,7 @@ output_details = interpreter.get_output_details()
 
 @app.post("/predict")
 
-def predict(file: UploadFile = File(...)):
+async def predict(file: UploadFile = File(...)):
     contents = await file.read()
     image = Image.open(BytesIO(contents)).convert("L")
 
