@@ -30,7 +30,7 @@ async def predict(file: UploadFile = File(...)):
 
     # Preprocessing (same as before)
     img = np.array(image)
-    img = cv2.resize(img, (28, 28))
+    img = cv2.resize(img, (28, 28), Image.ANTIALIAS)
     img = cv2.bitwise_not(img)
     img = 255 - img 
     img = img / 255.0
@@ -38,6 +38,7 @@ async def predict(file: UploadFile = File(...)):
      
     img_input = np.expand_dims(img, axis=-1)   # (28, 28, 1)
     img_input = np.expand_dims(img_input, axis=0)  # (1, 28, 28, 1)
+    Image.fromarray((img_input[0,:,:,0]*255).astype(np.uint8)).save("debug_input.png")
     prediction = model.predict(img_input)
     predicted_class = int(np.argmax(prediction, axis=1)[0])
     return {"predicted_class": predicted_class}
