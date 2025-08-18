@@ -9,10 +9,7 @@ import base64
 
 app=FastAPI()
 
-interpreter = tf.lite.Interpreter(model_path="handwriting_model.tflite")
-interpreter.allocate_tensors()
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
+model = tf.keras.models.load_model("handwriting_model.h5")
 
 
 @app.post("/predict")
@@ -28,10 +25,9 @@ async def predict(file: UploadFile = File(...)):
     img = img / 255.0
     img_input = np.array(input_data.data, dtype="float32")
      
-    interpreter.set_tensor(input_details[0]['index'], img_input)
-    interpreter.invoke()
-    prediction = interpreter.get_tensor(output_details[0]['index'])
-    predicted_class = int(prediction.argmax(axis=1)[0])
+    
+    prediction = model.predict(img_input)
+    predicted_class = int(np.argmax(prediction, axis=1)[0])
     return {"predicted_class": predicted_class}
 
     
