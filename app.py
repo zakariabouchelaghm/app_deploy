@@ -2,9 +2,16 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import numpy as np
 import tensorflow as tf 
+from fastapi.middleware.cors import CORSMiddleware
 
 app=FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # you can restrict to ["http://localhost:5173"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 interpreter = tf.lite.Interpreter(model_path="handwriting_model.tflite")
 interpreter.allocate_tensors()
 input_details = interpreter.get_input_details()
