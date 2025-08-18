@@ -3,6 +3,10 @@ from pydantic import BaseModel
 import numpy as np
 import tensorflow as tf 
 from fastapi.middleware.cors import CORSMiddleware
+import cv2
+from io import BytesIO
+from PIL import Image
+import base64
 
 app=FastAPI()
 app.add_middleware(
